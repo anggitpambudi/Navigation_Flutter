@@ -1,82 +1,67 @@
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
-  State createState() => new LoginPageState();
+  State createState() => LoginPageState();
 }
 
-class LoginPageState extends State<LoginPage>{
-
+class LoginPageState extends State<LoginPage> {
   @override
-  Widget build(BuildContext context){
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Login Page"),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Login Page"),
       ),
-
-      body: new Container(
+      body: Container(
         padding: const EdgeInsets.all(40.0),
-        child: new Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            FlutterLogo(),
-
-            new Padding(
-                padding:const EdgeInsets.only(top:20.0)
-            ),
-
-            new TextField(
-              decoration: new InputDecoration(
+            const FlutterLogo(),
+            const Padding(padding: EdgeInsets.only(top: 20.0)),
+            const TextField(
+              decoration: InputDecoration(
                 icon: Icon(Icons.person),
                 border: OutlineInputBorder(
-                  borderRadius:BorderRadius.all(
+                  borderRadius: BorderRadius.all(
                     Radius.circular(10.0),
                   ),
                 ),
-                hintText:"Username",
+                hintText: "Username",
               ),
             ),
-
-            new Padding(
-                padding: const EdgeInsets.only(top:20.0)
-            ),
-
-            new TextField(
-              decoration: new InputDecoration(
+            const Padding(padding: EdgeInsets.only(top: 20.0)),
+            const TextField(
+              decoration: InputDecoration(
                 icon: Icon(Icons.security),
                 border: OutlineInputBorder(
-                  borderRadius:BorderRadius.all(
+                  borderRadius: BorderRadius.all(
                     Radius.circular(10.0),
                   ),
                 ),
-                hintText:"Password",
+                hintText: "Password",
               ),
               obscureText: true,
             ),
-
-            new Padding(
-              padding: const EdgeInsets.only(top:40.0),
+            const Padding(
+              padding: EdgeInsets.only(top: 40.0),
             ),
-
-            new Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                new MaterialButton(
-                  child: new Text ("Login"),
-                  color: Colors.pink,
-                  onPressed: (){},
+                MaterialButton(
+                  child: const Text("Login"),
+                  color: Colors.blue,
+                  onPressed: () {},
                 ),
               ],
             ),
-
-            new Padding(
-              padding: const EdgeInsets.only(top:20.0),
+            const Padding(
+              padding: EdgeInsets.only(top: 20.0),
             ),
-
-            new TextButton(
-                onPressed: (){},
-                child: Text("Forgot Password?")
-            )
+            TextButton(onPressed: () {}, child: const Text("Forgot Password?"))
           ],
         ),
       ),
