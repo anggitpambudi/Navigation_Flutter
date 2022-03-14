@@ -1,70 +1,148 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
-
   @override
-  State createState() => LoginPageState();
+  _LoginPageState createState() => _LoginPageState();
 }
+class _LoginPageState extends State<LoginPage> {
+  String username = "";
+  String password = "";
+  bool isLoginSuccess = false;
 
-class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login Page"),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(40.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const FlutterLogo(),
-            const Padding(padding: EdgeInsets.only(top: 20.0)),
-            const TextField(
-              decoration: InputDecoration(
-                icon: Icon(Icons.person),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10.0),
-                  ),
-                ),
-                hintText: "Username",
-              ),
-            ),
-            const Padding(padding: EdgeInsets.only(top: 20.0)),
-            const TextField(
-              decoration: InputDecoration(
-                icon: Icon(Icons.security),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(10.0),
-                  ),
-                ),
-                hintText: "Password",
-              ),
-              obscureText: true,
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 40.0),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                MaterialButton(
-                  child: const Text("Login"),
-                  color: Colors.blue,
-                  onPressed: () {},
-                ),
-              ],
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 20.0),
-            ),
-            TextButton(onPressed: () {}, child: const Text("Forgot Password?"))
-          ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Login Page"),
+        ),
+        body: SingleChildScrollView(
+          child : Column(children: [
+            const LogoImageAssets(),
+            _usernameField(),
+            _passwordField(),
+            _loginButton(context),
+            TextButton(onPressed: () {},
+                child: const Text("Forgot Password?"))
+          ]),
         ),
       ),
+    );
+  }
+
+  Widget _usernameField() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20,
+          vertical: 10),
+      child: TextFormField(
+        enabled: true,
+        onChanged: (value) {
+          username = value;
+        },
+        decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.person),
+          hintText: 'Username',
+          contentPadding: const EdgeInsets.all(8.0),
+          border: const OutlineInputBorder(
+            borderRadius:
+            BorderRadius.all(Radius.circular(8.0)),
+            borderSide: BorderSide(color: Colors.blue),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius:
+            const BorderRadius.all(Radius.circular(8.0)),
+            borderSide: BorderSide(color: (isLoginSuccess)
+                ? Colors.blue : Colors.blue),
+          ),
+        ),
+      ),
+    );
+  }
+  Widget _passwordField() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20,
+          vertical: 10),
+      child: TextFormField(
+        enabled: true,
+        obscureText: true,
+        onChanged: (value) {
+          password = value;
+        },
+        decoration: InputDecoration(
+          prefixIcon: const Icon(Icons.security),
+          hintText: 'Password',
+          contentPadding: const EdgeInsets.all(8.0),
+          border: const OutlineInputBorder(
+            borderRadius:
+            BorderRadius.all(Radius.circular(8.0)),
+            borderSide: BorderSide(color: Colors.blue),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius:
+            const BorderRadius.all(Radius.circular(8.0)),
+            borderSide: BorderSide(color: (isLoginSuccess)
+                ? Colors.blue : Colors.blue),
+          ),
+        ),
+      ),
+    );
+  }
+  Widget _loginButton(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20,
+          vertical: 10),
+      width: MediaQuery.of(context).size.width,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: (isLoginSuccess) ? Colors.blue :
+          Colors.blue, // background
+          onPrimary: Colors.white, // foreground
+        ),
+        onPressed: () {
+          String text = "";
+          if (username == "admin" && password ==
+              "123") {
+            setState(() {
+              text = "Login Success";
+              isLoginSuccess = true;
+            });
+            _loginProcess(context);
+          } else {
+            setState(() {
+              text = "Login Failed";
+              isLoginSuccess = false;
+            });
+          }
+          print("isLoginSuccess : $isLoginSuccess");
+          SnackBar snackBar = SnackBar(
+            content: Text(text),
+          );
+
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        },
+        child: const Text('Login'),
+      ),
+    );
+  }
+  void _loginProcess(BuildContext context){
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+      return const Home();
+    }));
+  }
+}
+class LogoImageAssets extends StatelessWidget {
+  const LogoImageAssets({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    AssetImage assetImage = const AssetImage('assets/images/flutter.png');
+
+    Image image = Image(image: assetImage, height: 100, width: 100);
+    return Container(
+      margin: const EdgeInsets.only(top: 40.0),
+      child: image,
     );
   }
 }
